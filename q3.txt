@@ -1,0 +1,25 @@
+import pymysql as pm
+
+try:
+    con = pm.connect(host='localhost', database='pythondb',\
+                     user='nikhil', password='nikhiloz113')
+    
+    cursor = con.cursor()
+    
+    query = "update Books set BookId=BookId+1 where Genre = 'comedy'"
+    
+    cursor.execute(query)
+    
+    con.commit()
+    
+except pm.DatabaseError as e:
+    if con:
+        con.rollback()
+        print('Problem occured: ', e)
+    
+finally:
+    if cursor:
+        cursor.close()
+    if con:
+        con.close()
+    print('DONE!!')

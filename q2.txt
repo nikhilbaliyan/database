@@ -1,0 +1,30 @@
+import pymysql as pm
+
+try:
+    con = pm.connect(host='localhost', database='pythondb',\
+                     user='nikhil', password='nikhiloz113')
+    
+    cursor = con.cursor()
+    
+    query = "insert into Books(Bookid, Titleid, Location, Genre) \
+    values(%s, %s, %s, %s)"
+    
+    records = [(1, '101', india, comedy)]
+    
+    cursor.executemany(query, records)
+    
+    con.commit()
+    
+except pm.DatabaseError as e:
+    if con:
+        con.rollback()
+        print('Problem occured: ', e)
+    
+finally:
+    if cursor:
+        cursor.close()
+    if con:
+        con.close()
+    print('DONE!!')
+
+
